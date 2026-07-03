@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengaturan — Benevolent Class</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Load theme.js sets CSS vars before paint — no flash */
+:root {
+  --bg:          #0A0A0F;
+  --bg-layer:    #111118;
+  --glass:       rgba(255,255,255,0.04);
+  --glass-mid:   rgba(255,255,255,0.08);
+  --glass-high:  rgba(255,255,255,0.13);
+  --border:      rgba(255,255,255,0.10);
+  --border-hi:   rgba(255,255,255,0.18);
+  --ink:         #F0EDE8;
+  --ink-soft:    #8A8794;
+  --ink-mute:    #4A4754;
+  --gold:        #D4AF6A;
+  --gold-dim:    rgba(212,175,106,0.18);
+  --gold-glow:   rgba(212,175,106,0.35);
+  --slate:       #7B9EA8;
+  --ribbon-bg:   rgba(10,10,15,0.72);
+  --dot-pattern: rgba(255,255,255,0.04);
+  --orb-a:       rgba(212,175,106,0.12);
+  --orb-b:       rgba(123,158,168,0.10);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  background-image:radial-gradient(circle at 1px 1px,var(--dot-pattern) 1px,transparent 0);
+  background-size:28px 28px;
+  overflow-x:hidden;
+  transition:background 0.4s ease,color 0.4s ease;
+}
+body::before,body::after{
+  content:'';position:fixed;border-radius:50%;
+  pointer-events:none;z-index:0;filter:blur(120px);
+  transition:background 0.5s ease;
+}
+body::before{width:500px;height:500px;background:radial-gradient(circle,var(--orb-a) 0%,transparent 70%);top:-80px;left:-120px;}
+body::after{width:400px;height:400px;background:radial-gradient(circle,var(--orb-b) 0%,transparent 70%);bottom:-60px;right:-80px;}
+
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--gold);color:#0A0A0F;}
+
+/* NAV */
+.ribbon{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 6%;
+  background:var(--ribbon-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  gap:16px;
+  transition:background 0.4s ease,border-color 0.4s ease;
+}
+.ribbon-mark{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:1.15rem;color:var(--gold);}
+.ribbon-back{
+  font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--ink-soft);border:1px solid var(--border);
+  padding:6px 14px;border-radius:999px;background:var(--glass);
+  display:inline-flex;align-items:center;gap:7px;
+  transition:background 0.25s,color 0.25s,border-color 0.25s;
+}
+.ribbon-back:hover{background:var(--gold-dim);color:var(--gold);border-color:rgba(212,175,106,0.4);}
+
+/* PAGE HEADER */
+.page-header{padding:72px 6% 48px;position:relative;z-index:1;max-width:860px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:0.75rem;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--gold);}
+.page-header h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-1px;line-height:1.05;color:var(--ink);}
+.page-header h1 em{font-style:italic;font-weight:500;color:var(--slate);}
+.page-header p{margin-top:16px;font-size:1rem;line-height:1.7;color:var(--ink-soft);max-width:480px;}
+
+/* SETTINGS LAYOUT */
+.settings-body{padding:0 6% 100px;position:relative;z-index:1;max-width:860px;display:flex;flex-direction:column;gap:28px;}
+.setting-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:background 0.4s ease,border-color 0.4s ease;
+}
+.setting-card-header{padding:22px 28px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
+.setting-card-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--gold-dim);border:1px solid rgba(212,175,106,0.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.setting-card-icon svg{color:var(--gold);}
+.setting-card-header h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;color:var(--ink);}
+.setting-card-header p{font-size:0.82rem;color:var(--ink-soft);margin-top:2px;}
+.setting-card-body{padding:24px 28px;display:flex;flex-direction:column;gap:20px;}
+
+/* LIVE PREVIEW BADGE */
+.live-badge{
+  font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-dim);
+  padding:3px 9px;border-radius:999px;
+  background:var(--gold-dim);margin-left:auto;font-weight:600;
+}
+
+/* THEME GRID */
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;}
+.theme-card{
+  border-radius:12px;overflow:hidden;border:2px solid var(--border);
+  cursor:pointer;position:relative;
+  transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+  background:none;padding:0;text-align:left;
+}
+.theme-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,0.25);}
+.theme-card.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 14px 32px rgba(0,0,0,0.2);}
+.theme-card.active::after{
+  content:'✓';position:absolute;top:10px;right:10px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--gold);color:#0A0A0F;
+  font-size:0.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  line-height:22px;text-align:center;
+}
+.theme-preview{width:100%;height:88px;display:flex;gap:5px;padding:14px;}
+.theme-preview-bar{flex:1;border-radius:4px;}
+
+.tc-dark  .theme-preview  {background:#0A0A0F;}
+.tc-dark  .bar-1          {background:#D4AF6A;}
+.tc-dark  .bar-2          {background:rgba(255,255,255,0.12);}
+.tc-dark  .bar-3          {background:rgba(255,255,255,0.06);}
+
+.tc-cream .theme-preview  {background:#F6F0E4;}
+.tc-cream .bar-1          {background:#C1633F;}
+.tc-cream .bar-2          {background:#DCD0B8;}
+.tc-cream .bar-3          {background:#EFE6D2;}
+
+.tc-sage  .theme-preview  {background:#EFF2E9;}
+.tc-sage  .bar-1          {background:#4F5C45;}
+.tc-sage  .bar-2          {background:#CBD6BB;}
+.tc-sage  .bar-3          {background:#E3E9D9;}
+
+.tc-blush .theme-preview  {background:#FBF0EF;}
+.tc-blush .bar-1          {background:#D4674F;}
+.tc-blush .bar-2          {background:#EAD0CB;}
+.tc-blush .bar-3          {background:#F5E2DF;}
+
+.theme-card-label{padding:10px 14px 12px;background:var(--glass-mid);border-top:1px solid var(--border);}
+.theme-card-label strong{font-size:0.85rem;font-weight:600;color:var(--ink);display:block;}
+.theme-card-label span{font-size:0.72rem;color:var(--ink-soft);}
+
+/* SPEED GRID */
+.speed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.speed-btn{
+  padding:14px 10px;border-radius:10px;
+  border:1px solid var(--border);background:var(--glass);
+  cursor:pointer;text-align:center;
+  transition:background 0.2s,border-color 0.2s,color 0.2s;
+  color:var(--ink-soft);font-family:'Space Grotesk',sans-serif;
+}
+.speed-btn:hover{background:var(--glass-mid);color:var(--ink);}
+.speed-btn.active{border-color:var(--gold);background:var(--gold-dim);color:var(--gold);}
+.speed-btn strong{display:block;font-size:1rem;font-weight:600;color:inherit;margin-bottom:2px;}
+.speed-btn span{font-size:0.72rem;letter-spacing:0.5px;color:inherit;opacity:0.7;}
+
+/* TOGGLE ROWS */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--border);gap:20px;}
+.setting-row:last-child{border-bottom:none;padding-bottom:0;}
+.setting-row-info strong{font-size:0.95rem;font-weight:600;color:var(--ink);display:block;}
+.setting-row-info span{font-size:0.82rem;color:var(--ink-soft);margin-top:3px;display:block;}
+.toggle{position:relative;width:48px;height:26px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;border-radius:999px;background:var(--glass-mid);border:1px solid var(--border);cursor:pointer;transition:background 0.25s,border-color 0.25s;}
+.toggle input:checked ~ .toggle-track{background:var(--gold-dim);border-color:rgba(212,175,106,0.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--ink-soft);transition:transform 0.25s,background 0.25s;pointer-events:none;}
+.toggle input:checked ~ .toggle-track .toggle-thumb{transform:translateX(22px);background:var(--gold);}
+
+/* SAVE ROW */
+.save-row{display:flex;justify-content:flex-end;gap:12px;padding-top:8px;}
+.btn-save{
+  padding:12px 30px;border-radius:10px;
+  background:var(--gold);color:#0A0A0F;
+  font-family:'Space Grotesk',sans-serif;font-size:0.88rem;font-weight:700;
+  letter-spacing:0.5px;border:none;cursor:pointer;
+  transition:opacity 0.2s,transform 0.2s;
+}
+.btn-save:hover{opacity:0.88;transform:translateY(-1px);}
+.btn-cancel{
+  padding:12px 24px;border-radius:10px;background:var(--glass);color:var(--ink-soft);
+  font-family:'Space Grotesk',sans-serif;font-size:0.88rem;font-weight:600;
+  border:1px solid var(--border);cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;transition:background 0.2s,color 0.2s;
+}
+.btn-cancel:hover{background:var(--glass-mid);color:var(--ink);}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--glass-high);backdrop-filter:blur(20px);
+  border:1px solid var(--border-hi);border-radius:10px;
+  padding:14px 24px;color:var(--ink);font-size:0.88rem;
+  display:flex;align-items:center;gap:10px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.3s ease,transform 0.3s ease;
+  z-index:999;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast-icon{color:var(--gold);font-size:1.1rem;}
+
+@media(max-width:600px){
+  .ribbon{padding:14px 5%;}
+  .page-header,.settings-body{padding-left:5%;padding-right:5%;}
+  .theme-grid{grid-template-columns:repeat(2,1fr);}
+  .speed-grid{grid-template-columns:1fr 1fr;}
+  .setting-card-header,.setting-card-body{padding:18px 20px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="ribbon">
+  <span class="ribbon-mark">Benevolent</span>
+  <a href="index.html" class="ribbon-back">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </a>
+</nav>
+
+<div class="page-header">
+  <span class="eyebrow">Pengaturan</span>
+  <h1>Sesuaikan <em>Tampilan</em></h1>
+  <p>Pilih tema, kecepatan animasi, dan preferensi tampilan. Perubahan langsung terlihat — klik Simpan untuk menyimpan.</p>
+</div>
+
+<div class="settings-body">
+
+  <!-- CARD 1: TEMA -->
+  <div class="setting-card">
+    <div class="setting-card-header">
+      <div class="setting-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20A14.5 14.5 0 0 0 12 2"/></svg>
+      </div>
+      <div>
+        <h2>Tema Warna</h2>
+        <p>Ubah nuansa keseluruhan halaman</p>
+      </div>
+      <span class="live-badge">Live preview</span>
+    </div>
+    <div class="setting-card-body">
+      <div class="theme-grid" id="themeGrid">
+        <button class="theme-card tc-dark" data-theme="dark">
+          <div class="theme-preview"><div class="theme-preview-bar bar-1"></div><div class="theme-preview-bar bar-2"></div><div class="theme-preview-bar bar-3"></div></div>
+          <div class="theme-card-label"><strong>Dark Modern</strong><span>Gelap elegan · default</span></div>
+        </button>
+        <button class="theme-card tc-cream" data-theme="cream">
+          <div class="theme-preview"><div class="theme-preview-bar bar-1"></div><div class="theme-preview-bar bar-2"></div><div class="theme-preview-bar bar-3"></div></div>
+          <div class="theme-card-label"><strong>Cream Warm</strong><span>Hangat seperti kertas tua</span></div>
+        </button>
+        <button class="theme-card tc-sage" data-theme="sage">
+          <div class="theme-preview"><div class="theme-preview-bar bar-1"></div><div class="theme-preview-bar bar-2"></div><div class="theme-preview-bar bar-3"></div></div>
+          <div class="theme-card-label"><strong>Sage Green</strong><span>Hijau tenang & lembut</span></div>
+        </button>
+        <button class="theme-card tc-blush" data-theme="blush">
+          <div class="theme-preview"><div class="theme-preview-bar bar-1"></div><div class="theme-preview-bar bar-2"></div><div class="theme-preview-bar bar-3"></div></div>
+          <div class="theme-card-label"><strong>Blush Rose</strong><span>Merah muda pastel manis</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2: KECEPATAN -->
+  <div class="setting-card">
+    <div class="setting-card-header">
+      <div class="setting-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div>
+        <h2>Kecepatan Filmstrip</h2>
+        <p>Seberapa cepat roll film berputar</p>
+      </div>
+    </div>
+    <div class="setting-card-body">
+      <div class="speed-grid" id="speedGrid">
+        <button class="speed-btn" data-speed="slow"><strong>Lambat</strong><span>72 detik</span></button>
+        <button class="speed-btn" data-speed="normal"><strong>Normal</strong><span>48 detik</span></button>
+        <button class="speed-btn" data-speed="fast"><strong>Cepat</strong><span>28 detik</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: OPSI TAMPILAN -->
+  <div class="setting-card">
+    <div class="setting-card-header">
+      <div class="setting-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div>
+        <h2>Opsi Tampilan</h2>
+        <p>Preferensi detail galeri</p>
+      </div>
+    </div>
+    <div class="setting-card-body" style="gap:0;padding-top:6px;padding-bottom:6px;">
+      <div class="setting-row">
+        <div class="setting-row-info">
+          <strong>Efek hover pada galeri</strong>
+          <span>Foto diperbesar saat kursor di atasnya</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleHover"><div class="toggle-track"><div class="toggle-thumb"></div></div></label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-info">
+          <strong>Animasi polaroid miring</strong>
+          <span>Miring-miring kecil pada kartu filmstrip</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleTilt"><div class="toggle-track"><div class="toggle-thumb"></div></div></label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-info">
+          <strong>Auto-scroll ke atas saat klik foto</strong>
+          <span>Halaman naik ke hero saat foto dipilih</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleScroll"><div class="toggle-track"><div class="toggle-thumb"></div></div></label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-info">
+          <strong>Filter saturasi foto</strong>
+          <span>Sedikit desaturasi untuk kesan film vintage</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="toggleSat"><div class="toggle-track"><div class="toggle-thumb"></div></div></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-row">
+    <a href="index.html" class="btn-cancel">Batal</a>
+    <button class="btn-save" id="btnSave">Simpan Pengaturan</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon">✦</span> Pengaturan tersimpan!</div>
+
+<script src="theme.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const T = window.BenevolentTheme;
+
+  /* Load saved prefs */
+  let selectedTheme  = localStorage.getItem('benevolent-theme')  || 'dark';
+  let selectedSpeed  = localStorage.getItem('benevolent-speed')  || 'normal';
+  let prefHover  = localStorage.getItem('benevolent-hover')  !== 'false';
+  let prefTilt   = localStorage.getItem('benevolent-tilt')   !== 'false';
+  let prefScroll = localStorage.getItem('benevolent-scroll') !== 'false';
+  let prefSat    = localStorage.getItem('benevolent-sat')    !== 'false';
+
+  /* ── Theme cards ── */
+  const themeCards = document.querySelectorAll('.theme-card');
+  const setThemeUI = (t) => {
+    selectedTheme = t;
+    themeCards.forEach(c => c.classList.toggle('active', c.dataset.theme === t));
+    T.applyTheme(t); /* LIVE preview */
+  };
+  setThemeUI(selectedTheme);
+  themeCards.forEach(c => c.addEventListener('click', () => setThemeUI(c.dataset.theme)));
+
+  /* ── Speed btns ── */
+  const speedBtns = document.querySelectorAll('.speed-btn');
+  const setSpeedUI = (s) => {
+    selectedSpeed = s;
+    speedBtns.forEach(b => b.classList.toggle('active', b.dataset.speed === s));
+  };
+  setSpeedUI(selectedSpeed);
+  speedBtns.forEach(b => b.addEventListener('click', () => setSpeedUI(b.dataset.speed)));
+
+  /* ── Toggles ── */
+  const th = document.getElementById('toggleHover');
+  const tt = document.getElementById('toggleTilt');
+  const ts = document.getElementById('toggleScroll');
+  const tsat = document.getElementById('toggleSat');
+  th.checked = prefHover; tt.checked = prefTilt; ts.checked = prefScroll; tsat.checked = prefSat;
+
+  [th, tt, tsat].forEach(el => el.addEventListener('change', () => {
+    T.applyToggles({ hover: th.checked, tilt: tt.checked, sat: tsat.checked });
+  }));
+
+  /* ── Save ── */
+  document.getElementById('btnSave').addEventListener('click', () => {
+    localStorage.setItem('benevolent-theme',  selectedTheme);
+    localStorage.setItem('benevolent-speed',  selectedSpeed);
+    localStorage.setItem('benevolent-hover',  th.checked);
+    localStorage.setItem('benevolent-tilt',   tt.checked);
+    localStorage.setItem('benevolent-scroll', ts.checked);
+    localStorage.setItem('benevolent-sat',    tsat.checked);
+
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+});
+</script>
+</body>
+</html>

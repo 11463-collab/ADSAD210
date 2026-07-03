@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benevolent Class — SMP Negeri 1 Godean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ── CSS vars (defaults; theme.js overrides on load) ── */
+:root {
+  --bg:              #0A0A0F;
+  --bg-layer:        #111118;
+  --glass:           rgba(255,255,255,0.04);
+  --glass-mid:       rgba(255,255,255,0.08);
+  --glass-high:      rgba(255,255,255,0.13);
+  --border:          rgba(255,255,255,0.10);
+  --border-hi:       rgba(255,255,255,0.18);
+  --ink:             #F0EDE8;
+  --ink-soft:        #8A8794;
+  --ink-mute:        #4A4754;
+  --gold:            #D4AF6A;
+  --gold-dim:        rgba(212,175,106,0.18);
+  --gold-glow:       rgba(212,175,106,0.35);
+  --slate:           #7B9EA8;
+  --slate-dim:       rgba(123,158,168,0.15);
+  --dot-pattern:     rgba(255,255,255,0.04);
+  --ribbon-bg:       rgba(10,10,15,0.72);
+  --orb-a:           rgba(212,175,106,0.12);
+  --orb-b:           rgba(123,158,168,0.10);
+  --film-speed:      48s;
+  --film-tilt-odd:   -2deg;
+  --film-tilt-even:  1.5deg;
+  --photo-filter:    saturate(0.8) brightness(0.85);
+  --gallery-hover-scale:  1.05;
+  --gallery-hover-filter: saturate(1) brightness(1);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);color:var(--ink);
+  overflow-x:hidden;min-height:100vh;
+  background-image:radial-gradient(circle at 1px 1px,var(--dot-pattern) 1px,transparent 0);
+  background-size:28px 28px;position:relative;
+  transition:background 0.4s ease,color 0.4s ease;
+}
+body::before,body::after{
+  content:'';position:fixed;border-radius:50%;
+  pointer-events:none;z-index:0;filter:blur(120px);
+  transition:background 0.5s ease;
+}
+body::before{width:600px;height:600px;background:radial-gradient(circle,var(--orb-a) 0%,transparent 70%);top:-100px;left:-150px;}
+body::after{width:500px;height:500px;background:radial-gradient(circle,var(--orb-b) 0%,transparent 70%);bottom:-80px;right:-100px;}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--gold);color:#0A0A0F;}
+
+/* ── NAV ── */
+.ribbon{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 6%;
+  background:var(--ribbon-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);gap:16px;
+  transition:background 0.4s ease,border-color 0.4s ease;
+}
+.ribbon-mark{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:1.15rem;color:var(--gold);}
+.ribbon-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ribbon-tag{font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--border);padding:6px 14px;border-radius:999px;background:var(--glass);}
+.ribbon-settings{
+  font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);
+  border:1px solid var(--border);padding:6px 14px;border-radius:999px;background:var(--glass);
+  display:inline-flex;align-items:center;gap:6px;
+  transition:background 0.25s,color 0.25s,border-color 0.25s;
+}
+.ribbon-settings:hover{background:var(--gold-dim);color:var(--gold);border-color:rgba(212,175,106,0.4);}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:6vh 6% 10vh;overflow:hidden;isolation:isolate;}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background-size:cover;background-position:center right;background-repeat:no-repeat;
+  filter:saturate(0.7) brightness(0.55);
+  transition:background-image 0.7s ease;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right,var(--bg) 0%,var(--bg) 22%,rgba(0,0,0,0.55) 55%,transparent 100%);
+  transition:background 0.4s ease;
+}
+.hero-text{position:relative;z-index:3;width:min(560px,100%);}
+
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:0.75rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:22px;}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--gold);}
+
+.hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(3rem,6.5vw,5.4rem);line-height:0.96;letter-spacing:-1.5px;color:var(--ink);}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--slate);}
+.hero-school{margin-top:22px;font-size:1.1rem;color:var(--ink-soft);font-weight:500;}
+.hero-school strong{color:var(--ink);font-weight:600;}
+.hero-caption{margin-top:28px;font-family:'Caveat',cursive;font-size:1.5rem;color:var(--gold);font-weight:700;transform:rotate(-2deg);display:inline-block;opacity:0.9;}
+
+/* polaroids */
+.hero-frame{position:absolute;right:4%;top:0;bottom:0;width:44%;z-index:4;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.polaroid{position:absolute;background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border-hi);padding:12px 12px 44px;border-radius:3px;box-shadow:0 24px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.05);pointer-events:all;}
+.polaroid img{display:block;width:100%;height:100%;object-fit:cover;filter:var(--photo-filter);transition:filter 0.4s ease;}
+.polaroid .tag{position:absolute;bottom:10px;left:12px;right:12px;font-family:'Caveat',cursive;font-weight:600;font-size:1rem;color:var(--ink-soft);}
+.p-main  {width:min(300px,55%);height:380px;right:8%;top:12%;transform:rotate(3deg);z-index:3;}
+.p-side-a{width:180px;height:220px;left:0;bottom:8%;transform:rotate(-9deg);z-index:2;}
+.p-side-b{width:155px;height:185px;right:32%;bottom:2%;transform:rotate(8deg);z-index:4;}
+.washi{position:absolute;width:90px;height:22px;background:linear-gradient(120deg,rgba(212,175,106,0.4),rgba(212,175,106,0.2));top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);z-index:5;opacity:0.8;}
+
+/* ── FILMSTRIP ── */
+.filmstrip-section{padding:60px 0 70px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-layer);position:relative;overflow:hidden;z-index:1;transition:background 0.4s ease,border-color 0.4s ease;}
+.filmstrip-heading{padding:0 6% 30px;display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.filmstrip-heading h2{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:1.9rem;color:var(--ink);}
+.filmstrip-heading p{font-size:0.85rem;color:var(--ink-soft);max-width:340px;}
+.filmstrip-track-wrap{position:relative;width:100%;}
+.filmstrip-track-wrap::before,.filmstrip-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:10%;z-index:5;pointer-events:none;}
+.filmstrip-track-wrap::before{left:0;background:linear-gradient(to right,var(--bg-layer),transparent);}
+.filmstrip-track-wrap::after{right:0;background:linear-gradient(to left,var(--bg-layer),transparent);}
+.filmstrip-track{display:flex;gap:18px;width:max-content;animation:scrollStrip var(--film-speed) linear infinite;}
+.filmstrip-track:hover{animation-play-state:paused;}
+@keyframes scrollStrip{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.frame-card{flex:0 0 auto;width:260px;height:330px;border-radius:8px;overflow:hidden;position:relative;box-shadow:0 10px 28px rgba(0,0,0,0.5);border:1px solid var(--border);transition:transform 0.35s ease,box-shadow 0.35s ease;cursor:pointer;}
+.frame-card:nth-child(odd) {transform:rotate(var(--film-tilt-odd));}
+.frame-card:nth-child(even){transform:rotate(var(--film-tilt-even));}
+.frame-card:hover{transform:rotate(0deg) translateY(-6px)!important;}
+.frame-card.is-centered{transform:rotate(0deg) scale(1.08)!important;box-shadow:0 20px 48px rgba(0,0,0,0.7),0 0 0 2px var(--gold);z-index:3;}
+.frame-card img{width:100%;height:100%;object-fit:cover;filter:var(--photo-filter);transition:filter 0.4s ease;}
+.frame-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 45%);}
+.frame-card .frame-label{position:absolute;bottom:14px;left:16px;right:16px;color:var(--ink);font-size:0.78rem;letter-spacing:0.4px;font-weight:500;z-index:2;}
+
+/* ── GALLERY GROUPED ── */
+.gallery-full{padding:80px 6%;position:relative;z-index:1;}
+.gallery-section-head{margin-bottom:40px;max-width:560px;}
+.gallery-section-head h2{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.1rem,4vw,2.9rem);letter-spacing:-1px;line-height:1.08;}
+
+/* accordion groups */
+.gallery-groups{display:flex;flex-direction:column;gap:16px;}
+
+.gallery-group{
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;
+  background:var(--glass);
+  transition:border-color 0.3s ease, background 0.4s ease;
+}
+.gallery-group.is-open {
+  border-color: var(--border-hi);
+}
+
+.group-toggle{
+  width:100%;display:flex;align-items:center;gap:16px;
+  padding:20px 24px;cursor:pointer;
+  background:none;border:none;color:var(--ink);
+  font-family:'Space Grotesk',sans-serif;
+  transition:background 0.2s;text-align:left;
+}
+.group-toggle:hover{background:var(--glass-mid);}
+.class-logo{width:32px;height:32px;flex-shrink:0;border-radius:8px;background:var(--gold-dim);border:1px solid rgba(212,175,106,0.22);display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--gold);}
+.group-icon{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  background:var(--gold-dim);border:1px solid rgba(212,175,106,0.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;
+  color:var(--gold);
+}
+.group-info{flex:1;}
+.group-info strong{display:block;font-size:1rem;font-weight:600;color:var(--ink);}
+.group-info span{font-size:0.8rem;color:var(--ink-soft);margin-top:2px;display:block;}
+
+.group-count{
+  font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--gold);font-weight:600;
+  background:var(--gold-dim);border:1px solid rgba(212,175,106,0.22);
+  padding:4px 12px;border-radius:999px;white-space:nowrap;
+}
+.group-chevron{
+  width:20px;height:20px;flex-shrink:0;color:var(--ink-soft);
+  transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group-toggle[aria-expanded="true"] .group-chevron{transform:rotate(180deg);}
+
+.group-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease, margin 0.3s ease;
+}
+.gallery-group.is-open .group-divider {
+  opacity: 1;
+  margin-bottom: 20px;
+}
+
+/* Accordion Smooth Animation using CSS Grid */
+.group-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group-collapse.is-open {
+  grid-template-rows: 1fr;
+}
+.group-collapse-inner {
+  overflow: hidden;
+}
+
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  padding: 0 24px 24px;
+}
+
+.gallery-card{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.25);border:1px solid var(--border);cursor:pointer;}
+.gallery-card img{width:100%;height:100%;object-fit:cover;display:block;filter:var(--photo-filter);transition:transform 0.35s ease,filter 0.35s ease;}
+.gallery-card:hover img{transform:scale(var(--gallery-hover-scale));filter:var(--gallery-hover-filter);}
+.gallery-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 45%);}
+.gallery-card .gallery-label{position:absolute;left:10px;right:10px;bottom:9px;color:var(--ink);font-size:0.72rem;letter-spacing:0.2px;z-index:2;}
+
+/* ── ENTRIES ── */
+.entries{max-width:1080px;margin:0 auto;padding:80px 6%;position:relative;z-index:1;}
+.entries-head{margin-bottom:60px;max-width:560px;}
+.entries-head .eyebrow{margin-bottom:18px;}
+.entries-head h2{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.1rem,4vw,2.9rem);letter-spacing:-1px;line-height:1.08;}
+.entry{display:grid;grid-template-columns:110px 1fr 1.1fr;gap:36px;align-items:start;padding:42px 0;border-top:1px solid var(--border);}
+.entry:last-child{border-bottom:1px solid var(--border);}
+.entry-year{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1rem;color:var(--gold);padding-top:6px;}
+.entry-media{width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.3);border:1px solid var(--border);}
+.entry-media img{width:100%;height:100%;object-fit:cover;filter:var(--photo-filter);transition:transform 0.5s ease,filter 0.5s ease;}
+.entry:hover .entry-media img{transform:scale(1.04);filter:var(--gallery-hover-filter);}
+.entry-body h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.45rem;margin-bottom:12px;color:var(--ink);}
+.entry-body p{font-size:0.95rem;line-height:1.75;color:var(--ink-soft);}
+.entry-meta{display:inline-block;margin-top:16px;font-size:0.7rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--slate);font-weight:600;}
+@media(max-width:760px){.entry{grid-template-columns:1fr;gap:18px;}.entry-year{padding-top:0;}}
+
+/* ── FOOTER ── */
+footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;background:var(--glass);position:relative;z-index:1;transition:background 0.4s ease;}
+.footer-logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.3rem;color:var(--gold);}
+.footer-copy{font-size:0.8rem;color:var(--ink-mute);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:980px){.hero{min-height:auto;padding-top:48px;padding-bottom:60px;}.hero-frame{width:50%;}.p-main{width:200px;height:260px;right:4%;top:8%;}.p-side-a{width:140px;height:170px;left:0;bottom:4%;}.p-side-b{width:120px;height:140px;right:34%;bottom:0;}}
+@media(max-width:660px){.hero-frame{display:none;}.ribbon{padding:14px 5%;flex-wrap:wrap;}.ribbon-tag{display:none;}.filmstrip-heading{padding:0 5% 24px;}.entries{padding:60px 5%;}.gallery-full{padding:60px 5%;}.group-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}}
+</style>
+</head>
+<body>
+
+<nav class="ribbon">
+  <!-- Perbaikan link gambar logo -->
+  <img src="https://www.benevolentclass.my.id/img/logo.png" alt="Logo Benevolent Class" width="36" height="36" class="class-logo">
+  <span class="ribbon-mark">Benevolent</span>
+  <div class="ribbon-right">
+    <span class="ribbon-tag">Negsago'27</span>
+    <a href="settings.html" class="ribbon-settings">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Pengaturan
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-text">
+    <span class="eyebrow">A memories of</span>
+    <h1>Benevolent<br><em>Class</em></h1>
+    <p class="hero-school">SMP Negeri 1 Godean — <strong>Kelas Benevolent</strong></p>
+    <span class="hero-caption">"WIWOK DETOK"</span>
+  </div>
+  <div class="hero-frame">
+    <div class="polaroid p-side-a">
+      <img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.51%20(1).jpeg" alt="" id="polaroidSideA">
+      <span class="tag" id="tagSideA">class meeting</span>
+    </div>
+    <div class="polaroid p-main">
+      <div class="washi"></div>
+      <img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.51.jpeg" alt="" id="polaroidMain">
+      <span class="tag" id="tagMain">Benevolent, 2025</span>
+    </div>
+    <div class="polaroid p-side-b">
+      <img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.52%20(1).jpeg" alt="" id="polaroidSideB">
+      <span class="tag" id="tagSideB">HUT sekolah</span>
+    </div>
+  </div>
+</header>
+
+<section class="filmstrip-section" aria-label="Galeri foto bergulir otomatis">
+  <div class="filmstrip-heading">
+    <h2>Roll Film Kenangan</h2>
+    <p>Kumpulan momen yang bergulir sendiri — foto di tengah otomatis ditonjolkan. Arahkan kursor untuk berhenti.</p>
+  </div>
+  <div class="filmstrip-track-wrap" id="filmTrackWrap">
+    <div class="filmstrip-track" id="filmTrack"></div>
+  </div>
+</section>
+
+<!-- GALERI GRUPAN -->
+<section class="gallery-full" aria-label="Galeri foto per momen">
+  <div class="gallery-section-head">
+    <span class="eyebrow">Galeri Kenangan</span>
+    <h2>Semua momen Benevolent, teratur per cerita.</h2>
+  </div>
+  <div class="gallery-groups" id="galleryGroups"></div>
+</section>
+
+<section class="entries">
+  <div class="entries-head">
+    <span class="eyebrow">Catatan Perjalanan</span>
+    <h2>Setiap babak punya ceritanya sendiri.</h2>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2023</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.53%20(2).jpeg" alt="Masa orientasi siswa"></div>
+    <div class="entry-body">
+      <h3>Awal Perjuangan</h3>
+      <p>Hari pertama kita menginjakkan kaki di kelas ini — malu-malu, saling melempar pandang, tapi diam-diam menyimpan sejuta mimpi yang sama. Dari situlah Benevolent mulai dibangun, satu wajah baru demi satu wajah baru.</p>
+      <span class="entry-meta">Masa Orientasi Siswa</span>
+    </div>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2024</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.53.jpeg" alt="Class meeting"></div>
+    <div class="entry-body">
+      <h3>Kemenangan Bersama</h3>
+      <p>Bukan soal piala yang dibawa pulang, tapi soal suara yang habis untuk bersorak, dan tangan yang saling menarik saat ada yang nyaris menyerah. Di lapangan itu, kita belajar arti satu tim sesungguhnya.</p>
+      <span class="entry-meta">Class Meeting Tahunan</span>
+    </div>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2024</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.54%20(1).jpeg" alt="Ulang tahun sekolah"></div>
+    <div class="entry-body">
+      <h3>Satu Jiwa, Negodean</h3>
+      <p>Panggung penuh warna, kostum dadakan, dan tawa yang tak henti — perayaan ulang tahun sekolah jadi panggung kecil untuk menunjukkan versi terbaik dari Benevolent kepada seluruh angkatan.</p>
+      <span class="entry-meta">HUT SMP Negeri 1 Godean</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Benevolent — negsago'27</div>
+  <div class="footer-copy">&copy; 2026 Benevolent Class, SMP Negeri 1 Godean. Dibuat dengan kasih untuk kenangan seumur hidup.</div>
+</footer>
+
+<script src="theme.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ── Read scroll preference ── */
+  const doScroll = localStorage.getItem('benevolent-scroll') !== 'false';
+
+  /* ── Image data — EDIT GRUP DI SINI ── */
+  const GROUPS = [
+    {
+      name:   'Masa Orientasi Siswa',
+      icon:   '<i class="fa-solid fa-school"></i>',
+      desc:   'Hari-hari pertama mengenal satu sama lain',
+      photos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+    },
+    {
+      name:   'Class Meeting',
+      icon:   '<i class="fa-solid fa-trophy"></i>',
+      desc:   'Pertandingan, semangat, dan solidaritas kelas',
+      photos: [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+    },
+    {
+      name:   'HUT SMP Negeri 1 Godean',
+      icon:   '<i class="fa-solid fa-cake-candles"></i>',
+      desc:   'Perayaan ulang tahun sekolah yang meriah',
+      photos: [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+    },
+    {
+      name:   'Kegiatan Belajar',
+      icon:   '<i class="fa-solid fa-book-open"></i>',
+      desc:   'Momen di dalam kelas dan belajar bersama',
+      photos: [45,46,47,48,49,50,51,52,53,54,55,56,57,58,59],
+    },
+    {
+      name:   'Foto Bareng',
+      icon:   '<i class="fa-solid fa-camera"></i>',
+      desc:   'Koleksi foto bersama yang tidak terlupakan',
+      photos: [60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94],
+    },
+  ];
+
+  const imageList = [
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.11.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.12%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.12.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.13%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.13%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.13.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.14%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.14%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.14.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.15%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.15%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.15.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.16%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.16.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.17%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.17%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.17.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.18%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.18.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.19%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.19.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.20%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.20%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.20.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.21.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.23.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.24%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.24%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.24.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.25%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.25%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.25.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.26%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.26%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.26.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.27%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.27.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.28%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.28%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.28.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.29%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.29%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.29%20(3).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.29.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.30%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.30%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.30.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.50%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.50.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.51.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.52%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.52%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.52.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.53%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.53%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.53.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.54%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.54.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.55%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.55%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.55.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.56%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.56.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.57%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.57.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.58%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.58.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.59%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.59.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.00%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.00.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.01%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.01.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.02%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.55.52%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.02.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.03%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.03.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.04%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.04%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.04.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.05%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.05%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.05.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.06%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.06%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.06.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.07%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.07.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.08%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.08%20(2).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.09%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.09.jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.10%20(1).jpeg',
+    'img/WhatsApp%20Image%202026-07-01%20at%2022.56.10.jpeg',
+  ];
+
+  const galleryData = imageList.map((src, i) => ({
+    src, alt: `Foto Benevolent ${i+1}`, label: `Foto ${i+1}`
+  }));
+
+  /* ── Hero select ── */
+  const heroBg       = document.getElementById('heroBg');
+  const polaroidMain = document.getElementById('polaroidMain');
+  const tagMain      = document.getElementById('tagMain');
+  const polaroidSideA= document.getElementById('polaroidSideA');
+  const tagSideA     = document.getElementById('tagSideA');
+  const polaroidSideB= document.getElementById('polaroidSideB');
+  const tagSideB     = document.getElementById('tagSideB');
+
+  const selectImage = (index) => {
+    const item = galleryData[index]; if (!item) return;
+    heroBg.style.backgroundImage = `url('${item.src}')`;
+    polaroidMain.src = item.src; tagMain.textContent = item.label;
+    const prev = galleryData[(index-1+galleryData.length)%galleryData.length];
+    const next = galleryData[(index+1)%galleryData.length];
+    polaroidSideA.src = prev.src; tagSideA.textContent = prev.label;
+    polaroidSideB.src = next.src; tagSideB.textContent = next.label;
+    if (doScroll) window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  /* ── Build gallery card ── */
+  const buildCard = (item, globalIdx, type) => {
+    const card = document.createElement('article');
+    card.className = type === 'film' ? 'frame-card' : 'gallery-card';
+    card.innerHTML = `<img src="${item.src}" alt="${item.alt}" loading="lazy"><span class="${type==='film'?'frame-label':'gallery-label'}">${item.label}</span>`;
+    card.addEventListener('click', () => selectImage(globalIdx));
+    return card;
+  };
+
+  /* ── Build filmstrip ── */
+  const filmTrack = document.getElementById('filmTrack');
+  const filmTrackWrap = document.getElementById('filmTrackWrap');
+  const allForFilm = [...galleryData, ...galleryData];
+  const filmCards = allForFilm.map((item, i) => buildCard(item, i % galleryData.length, 'film'));
+  filmCards.forEach(c => filmTrack.appendChild(c));
+
+  /* ── Build grouped gallery ── */
+  const groupsContainer = document.getElementById('galleryGroups');
+
+  GROUPS.forEach((grp, gi) => {
+    const validPhotos = grp.photos.filter(idx => galleryData[idx]);
+
+    /* Wrapper */
+    const wrapper = document.createElement('div');
+    wrapper.className = 'gallery-group';
+    if (gi === 0) wrapper.classList.add('is-open'); // Open grup pertama default
+
+    /* Toggle button */
+    const btn = document.createElement('button');
+    btn.className = 'group-toggle';
+    btn.setAttribute('aria-expanded', gi === 0 ? 'true' : 'false');
+    btn.innerHTML = `
+      <div class="group-icon">${grp.icon}</div>
+      <div class="group-info">
+        <strong>${grp.name}</strong>
+        <span>${grp.desc}</span>
+      </div>
+      <span class="group-count">${validPhotos.length} foto</span>
+      <svg class="group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    `;
+
+    /* Divider */
+    const divider = document.createElement('div');
+    divider.className = 'group-divider';
+
+    /* Collapse container untuk animasi super mulus */
+    const collapse = document.createElement('div');
+    collapse.className = 'group-collapse';
+    if (gi === 0) collapse.classList.add('is-open');
+
+    /* Collapse Inner untuk mengunci overflow saat bertransisi */
+    const collapseInner = document.createElement('div');
+    collapseInner.className = 'group-collapse-inner';
+
+    /* Grid Sesungguhnya */
+    const grid = document.createElement('div');
+    grid.className = 'group-grid';
+
+    validPhotos.forEach(idx => {
+      grid.appendChild(buildCard(galleryData[idx], idx, 'gallery'));
+    });
+
+    collapseInner.appendChild(grid);
+    collapse.appendChild(collapseInner);
+
+    /* Toggle behavior (Event Klik) */
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      wrapper.classList.toggle('is-open', !isOpen);
+      collapse.classList.toggle('is-open', !isOpen);
+    });
+
+    wrapper.appendChild(btn);
+    wrapper.appendChild(divider);
+    wrapper.appendChild(collapse);
+    groupsContainer.appendChild(wrapper);
+  });
+
+  selectImage(0);
+
+  /* ── Filmstrip center highlight ── */
+  let currentCentered = null;
+  const tick = () => {
+    const wr = filmTrackWrap.getBoundingClientRect();
+    const cx = wr.left + wr.width / 2;
+    let closest = null, minD = Infinity;
+    filmCards.forEach(c => {
+      const r = c.getBoundingClientRect();
+      if (r.right < wr.left - 50 || r.left > wr.right + 50) return;
+      const d = Math.abs(r.left + r.width / 2 - cx);
+      if (d < minD) { minD = d; closest = c; }
+    });
+    if (closest && closest !== currentCentered) {
+      if (currentCentered) currentCentered.classList.remove('is-centered');
+      closest.classList.add('is-centered');
+      currentCentered = closest;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+});
+</script>
+</body>
+</html>
