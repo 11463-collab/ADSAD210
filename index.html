@@ -163,7 +163,24 @@ a{color:inherit;text-decoration:none;}
   transition:background 0.2s;text-align:left;
 }
 .group-toggle:hover{background:var(--glass-mid);}
-.class-logo{width:32px;height:32px;flex-shrink:0;;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--gold);}
+.class-logo {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0; /* Menjaga kotak logo agar tidak tertekan/mengecil */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Mengubah 'center' menjadi 'flex-start' agar isinya rata kiri */
+    font-size: 1.05rem;
+    color: var(--gold);
+    margin-right: auto; /* Mendorong seluruh kotak logo ini ke paling kiri di dalam wadah utamanya (misal: navbar) */
+}
+
+/* WAJIB DITAMBAHKAN JIKA LOGONYA BERUPA GAMBAR (<img>) */
+.class-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ini kunci utama agar gambar pas di kotak 32x32px tanpa gepeng atau melar */
+}
 .group-icon{
   width:42px;height:42px;border-radius:10px;flex-shrink:0;
   background:var(--gold-dim);border:1px solid rgba(212,175,106,0.22);
@@ -255,8 +272,9 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
 
 <nav class="ribbon">
   <!-- Perbaikan link gambar logo -->
-  <img src="https://www.benevolentclass.my.id/img/logo.png" alt="Logo Benevolent Class" width="36" height="36" class="class-logo">
-  <span class="ribbon-mark">Benevolent</span>
+  <div class="class-logo">
+    <img src="https://www.benevolentclass.my.id/img/logo.png" alt="Logo Benevolent Class">
+  </div>
   <div class="ribbon-right">
     <span class="ribbon-tag">Negsago'27</span>
     <a href="settings.html" class="ribbon-settings">
