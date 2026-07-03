@@ -14,40 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ── Read scroll preference ── */
   const doScroll = localStorage.getItem('benevolent-scroll') !== 'false';
 
-  /* ── Image data — EDIT GRUP DI SINI ── */
-  const GROUPS = [
-    {
-      name:   'Masa Orientasi Siswa',
-      icon:   '<i class="fa-solid fa-school"></i>',
-      desc:   'Hari-hari pertama mengenal satu sama lain',
-      photos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
-    },
-    {
-      name:   'Class Meeting',
-      icon:   '<i class="fa-solid fa-trophy"></i>',
-      desc:   'Pertandingan, semangat, dan solidaritas kelas',
-      photos: [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
-    },
-    {
-      name:   'HUT SMP Negeri 1 Godean',
-      icon:   '<i class="fa-solid fa-cake-candles"></i>',
-      desc:   'Perayaan ulang tahun sekolah yang meriah',
-      photos: [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
-    },
-    {
-      name:   'Kegiatan Belajar',
-      icon:   '<i class="fa-solid fa-book-open"></i>',
-      desc:   'Momen di dalam kelas dan belajar bersama',
-      photos: [45,46,47,48,49,50,51,52,53,54,55,56,57,58,59],
-    },
-    {
-      name:   'Foto Bareng',
-      icon:   '<i class="fa-solid fa-camera"></i>',
-      desc:   'Koleksi foto bersama yang tidak terlupakan',
-      photos: [60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94],
-    },
-  ];
-
+  /* ── Image data (FILMSTRIP only uses imageList, NOT aibImages) ── */
   const imageList = [
     'img/WhatsApp%20Image%202026-07-01%20at%2022.55.11.jpeg',
     'img/WhatsApp%20Image%202026-07-01%20at%2022.55.12%20(1).jpeg',
@@ -146,11 +113,116 @@ document.addEventListener("DOMContentLoaded", () => {
     'img/WhatsApp%20Image%202026-07-01%20at%2022.56.10.jpeg',
   ];
 
+  /* ── Aib images — TERPISAH, tidak masuk galleryData / filmstrip ── */
+  const aibImages = [
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.01.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.02%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.02%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.02.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.03%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.03%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.03.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.04%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.04%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.04%20(3).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.04.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.05%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.05%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.05.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.06%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.06%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.06.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.07%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.07%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.07.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.08%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.08%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.08.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.09%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.09%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.09.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.10%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.10%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.10.jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.11%20(1).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.11%20(2).jpeg',
+    'aib/WhatsApp%20Image%202026-07-03%20at%2020.44.11.jpeg',
+  ];
+
+  /* ── galleryData hanya dari imageList (dipakai filmstrip & group gallery) ── */
   const galleryData = imageList.map((src, i) => ({
     src, alt: `Foto Benevolent ${i+1}`, label: `Foto ${i+1}`
   }));
 
-  /* ── Hero select ── */
+  /* ── aibGalleryData terpisah (hanya dipakai group Aib Kelas) ── */
+  const aibGalleryData = aibImages.map((src, i) => ({
+    src, alt: `Foto Aib ${i+1}`, label: `Aib ${i+1}`
+  }));
+
+  /* ── GROUPS — "Aib Kelas" tidak pakai index, tapi flag khusus ── */
+  const GROUPS = [
+    {
+      name:   'Masa Pengenalan Lingkungan Sekolah (MPLS)',
+      icon:   '<i class="fa-solid fa-school"></i>',
+      desc:   'Hari-hari pertama mengenal satu sama lain',
+      photos: [48,63,92],
+    },
+    {
+      name:   'Class Meeting',
+      icon:   '<i class="fa-solid fa-trophy"></i>',
+      desc:   'Pertandingan, semangat, dan solidaritas kelas',
+      photos: [],
+    },
+    {
+      name:   'Kegiatan Belajar',
+      icon:   '<i class="fa-solid fa-book-open"></i>',
+      desc:   'Momen di dalam kelas dan belajar bersama',
+      photos: [8,15,51,52,62,68,72,74,76,79,87,88],
+    },
+    {
+      name:   'Outing Class',
+      icon:   '<i class="fa-solid fa-camera"></i>',
+      desc:   'Koleksi foto bersama yang tidak terlupakan',
+      photos: [7,18,23,32,36],
+    },
+    {
+      name:   'Upacara Bendera',
+      icon:   '<i class="fa-solid fa-flag"></i>',
+      desc:   'Aktivitas di luar jam pelajaran, dari olahraga hingga seni',
+      photos: [50,70,84],
+    },
+    {
+      name:   'ECC 2026',
+      icon:   '<i class="fa-solid fa-ellipsis"></i>',
+      desc:   'Foto-foto lain yang tidak masuk kategori di atas',
+      photos: [1,3,13,14,16,25,37],
+    },
+    {
+      name:   'Buka Bersama',
+      icon:   '<i class="fa-solid fa-image"></i>',
+      desc:   'Foto Berbuka puasa bersamaikkk',
+      photos: [0,4,11,19,24,29,41,42,83,86],
+    },
+    {
+      name:   'Acara Sekolah, DLL',
+      icon:   '<i class="fa-solid fa-cake-candles"></i>',
+      desc:   'Perayaan ulang tahun sekolah yang meriah',
+      photos: [89,80,81,91,2,5,6,9,10,12,17,20,21,22,26,27,28,30,33,34,35,38,43,49,53,54,55,57,58,59,60,61,65,66,67,69,71,73,77,78],
+    },
+    {
+      name:   'Bumi Perkemahan',
+      icon:   '<i class="fa-solid fa-tent"></i>',
+      desc:   'Kegiatan di luar sekolah, seperti kunjungan dan perjalanan',
+      photos: [56,64,75,82,90,85],
+    },
+    {
+      name:   'Aib Kelas',
+      icon:   '<i class="fa-solid fa-images"></i>',
+      desc:   'Foto-foto yang memalukan, tapi tetap lucu',
+      isAib:  true,
+    },
+  ];
+  
   const heroBg       = document.getElementById('heroBg');
   const polaroidMain = document.getElementById('polaroidMain');
   const tagMain      = document.getElementById('tagMain');
@@ -159,43 +231,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const polaroidSideB= document.getElementById('polaroidSideB');
   const tagSideB     = document.getElementById('tagSideB');
 
-  const selectImage = (index) => {
-    const item = galleryData[index]; if (!item) return;
+  const selectImage = (index, data) => {
+    data = data || galleryData;
+    const item = data[index]; if (!item) return;
     heroBg.style.backgroundImage = `url('${item.src}')`;
     polaroidMain.src = item.src; tagMain.textContent = item.label;
-    const prev = galleryData[(index-1+galleryData.length)%galleryData.length];
-    const next = galleryData[(index+1)%galleryData.length];
+    const prev = data[(index-1+data.length)%data.length];
+    const next = data[(index+1)%data.length];
     polaroidSideA.src = prev.src; tagSideA.textContent = prev.label;
     polaroidSideB.src = next.src; tagSideB.textContent = next.label;
     if (doScroll) window.scrollTo({top:0,behavior:'smooth'});
   };
 
   /* ── Build gallery card ── */
-  const buildCard = (item, globalIdx, type) => {
+  const buildCard = (item, clickFn, type) => {
     const card = document.createElement('article');
     card.className = type === 'film' ? 'frame-card' : 'gallery-card';
     card.innerHTML = `<img src="${item.src}" alt="${item.alt}" loading="lazy"><span class="${type==='film'?'frame-label':'gallery-label'}">${item.label}</span>`;
-    card.addEventListener('click', () => selectImage(globalIdx));
+    card.addEventListener('click', clickFn);
     return card;
   };
 
-  /* ── Build filmstrip ── */
+  /* ── Build filmstrip — hanya dari galleryData (bukan aib) ── */
   const filmTrack = document.getElementById('filmTrack');
   const filmTrackWrap = document.getElementById('filmTrackWrap');
   const allForFilm = [...galleryData, ...galleryData];
-  const filmCards = allForFilm.map((item, i) => buildCard(item, i % galleryData.length, 'film'));
+  const filmCards = allForFilm.map((item, i) => {
+    const realIdx = i % galleryData.length;
+    return buildCard(item, () => selectImage(realIdx, galleryData), 'film');
+  });
   filmCards.forEach(c => filmTrack.appendChild(c));
 
   /* ── Build grouped gallery ── */
   const groupsContainer = document.getElementById('galleryGroups');
 
   GROUPS.forEach((grp, gi) => {
-    const validPhotos = grp.photos.filter(idx => galleryData[idx]);
+    /* Tentukan items: kalau isAib pakai aibGalleryData, kalau tidak pakai galleryData by index */
+    let items;
+    if (grp.isAib) {
+      items = aibGalleryData;
+    } else {
+      items = (grp.photos || [])
+        .filter(idx => galleryData[idx])
+        .map(idx => galleryData[idx]);
+    }
 
     /* Wrapper */
     const wrapper = document.createElement('div');
     wrapper.className = 'gallery-group';
-    if (gi === 0) wrapper.classList.add('is-open'); // Open grup pertama default
+    if (gi === 0) wrapper.classList.add('is-open');
 
     /* Toggle button */
     const btn = document.createElement('button');
@@ -207,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong>${grp.name}</strong>
         <span>${grp.desc}</span>
       </div>
-      <span class="group-count">${validPhotos.length} foto</span>
+      <span class="group-count">${items.length} foto</span>
       <svg class="group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     `;
 
@@ -215,27 +299,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const divider = document.createElement('div');
     divider.className = 'group-divider';
 
-    /* Collapse container untuk animasi super mulus */
+    /* Collapse */
     const collapse = document.createElement('div');
     collapse.className = 'group-collapse';
     if (gi === 0) collapse.classList.add('is-open');
 
-    /* Collapse Inner untuk mengunci overflow saat bertransisi */
     const collapseInner = document.createElement('div');
     collapseInner.className = 'group-collapse-inner';
 
-    /* Grid Sesungguhnya */
     const grid = document.createElement('div');
     grid.className = 'group-grid';
 
-    validPhotos.forEach(idx => {
-      grid.appendChild(buildCard(galleryData[idx], idx, 'gallery'));
+    items.forEach((item, itemIdx) => {
+      /* Klik foto aib tidak update hero (karena aib tidak ada di galleryData) */
+      const clickFn = grp.isAib
+        ? () => {}
+        : () => {
+            const originalIdx = (grp.photos || [])[itemIdx];
+            selectImage(originalIdx, galleryData);
+          };
+      grid.appendChild(buildCard(item, clickFn, 'gallery'));
     });
 
     collapseInner.appendChild(grid);
     collapse.appendChild(collapseInner);
 
-    /* Toggle behavior (Event Klik) */
     btn.addEventListener('click', () => {
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
@@ -408,7 +496,6 @@ a{color:inherit;text-decoration:none;}
 .gallery-section-head{margin-bottom:40px;max-width:560px;}
 .gallery-section-head h2{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.1rem,4vw,2.9rem);letter-spacing:-1px;line-height:1.08;}
 
-/* accordion groups */
 .gallery-groups{display:flex;flex-direction:column;gap:16px;}
 
 .gallery-group{
@@ -431,20 +518,18 @@ a{color:inherit;text-decoration:none;}
 .class-logo {
     width: 32px;
     height: 32px;
-    flex-shrink: 0; /* Menjaga kotak logo agar tidak tertekan/mengecil */
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Mengubah 'center' menjadi 'flex-start' agar isinya rata kiri */
+    justify-content: flex-start;
     font-size: 1.05rem;
     color: var(--gold);
-    margin-right: auto; /* Mendorong seluruh kotak logo ini ke paling kiri di dalam wadah utamanya (misal: navbar) */
+    margin-right: auto;
 }
-
-/* WAJIB DITAMBAHKAN JIKA LOGONYA BERUPA GAMBAR (<img>) */
 .class-logo img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Ini kunci utama agar gambar pas di kotak 32x32px tanpa gepeng atau melar */
+    object-fit: contain;
 }
 .group-icon{
   width:42px;height:42px;border-radius:10px;flex-shrink:0;
@@ -481,7 +566,6 @@ a{color:inherit;text-decoration:none;}
   margin-bottom: 20px;
 }
 
-/* Accordion Smooth Animation using CSS Grid */
 .group-collapse {
   display: grid;
   grid-template-rows: 0fr;
@@ -536,7 +620,6 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
 <body>
 
 <nav class="ribbon">
-  <!-- Perbaikan link gambar logo -->
   <div class="class-logo">
     <img src="https://www.benevolentclass.my.id/img/logo.png" alt="Logo Benevolent Class">
   </div>
@@ -554,8 +637,8 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
   <div class="hero-text">
     <span class="eyebrow">A memories of</span>
     <h1>Benevolent<br><em>Class</em></h1>
-    <p class="hero-school">SMP Negeri 1 Godean — <strong>Benevolent Class</strong></p>
-    <span class="hero-caption">"Solidaritas Tiada Batas"</span>
+    <p class="hero-school">SMP Negeri 1 Godean — <strong>Kelas Benevolent</strong></p>
+    <span class="hero-caption">"WIWOK DETOK"</span>
   </div>
   <div class="hero-frame">
     <div class="polaroid p-side-a">
@@ -584,11 +667,11 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
   </div>
 </section>
 
-<!-- GALERI GRUPAN -->
+<!-- GALERI GRUPAN (termasuk Aib Kelas di dalamnya) -->
 <section class="gallery-full" aria-label="Galeri foto per momen">
   <div class="gallery-section-head">
     <span class="eyebrow">Galeri Kenangan</span>
-    <h2>Semua momen Benevolent, teratur per cerita.</h2>
+    <h2>Semua momen akan bermakna, dan setiap foto memiliki cerita.</h2>
   </div>
   <div class="gallery-groups" id="galleryGroups"></div>
 </section>
@@ -627,9 +710,43 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
   </div>
 </section>
 
+<section class="entries">
+  <div class="entries-head">
+    <span class="eyebrow">Momen Lainnya</span>
+    <h2>Kenangan yang tak kalah berharga.</h2>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2025</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.54.jpeg" alt="Class meeting"></div>
+    <div class="entry-body">
+      <h3>Class Meeting</h3>
+      <p>Hari itu, kita bukan hanya belajar di kelas, tapi juga belajar tentang kebersamaan, sportivitas, dan bagaimana menjadi bagian dari sesuatu yang lebih besar dari diri sendiri.</p>
+      <span class="entry-meta">Class Meeting SMP Negeri 1 Godean</span>
+    </div>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2025</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.55%20(1).jpeg" alt="Perkemahan Gudep"></div>
+    <div class="entry-body">
+      <h3>Perkemahan Gudep</h3>
+      <p>Di tengah hutan, dengan api unggun yang hangat, kita menemukan sisi lain dari diri kita — keberanian, kreativitas, dan persahabatan yang tak lekang oleh waktu.</p>
+      <span class="entry-meta">Perkemahan Gudep 02.013 02.014</span>
+    </div>
+  </div>
+  <div class="entry">
+    <span class="entry-year">2025</span>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.55.jpeg" alt="Kegiatan sosial"></div>
+    <div class="entry-body">
+      <h3>Kegiatan Sosial</h3>
+      <p>Memberikan kembali kepada masyarakat adalah bagian dari perjalanan kita. Hari itu, kita belajar bahwa kebahagiaan sejati datang dari memberi, bukan hanya menerima.</p>
+      <span class="entry-meta">Kegiatan Sosial SMP Negeri 1 Godean</span>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <div class="footer-logo">Benevolent — negsago'27</div>
-  <div class="footer-copy">&copy;2026 Benevolent Class, SMP Negeri 1 Godean. Made By Affan Eka Pradybta</div>
+  <div class="footer-logo">Benevolent Class — negsago'27</div>
+  <div class="footer-copy">&copy;2026 Made By Affan Eka Pradybta for <a href="https://www.benevolentclass.my.id">Benevolent Class</a>, SMP Negeri 1 Godean.</div>
 </footer>
 
 <script src="theme.js"></script>
