@@ -219,10 +219,11 @@ document.addEventListener("DOMContentLoaded", () => {
       name:   'Aib Kelas',
       icon:   '<i class="fa-solid fa-images"></i>',
       desc:   'Foto-foto yang memalukan, tapi tetap lucu',
-      isAib:  true,
+      isAib:  true,   /* ← flag khusus, tidak pakai photos index */
     },
   ];
-  
+
+  /* ── Hero select (hanya dari galleryData, tidak termasuk aib) ── */
   const heroBg       = document.getElementById('heroBg');
   const polaroidMain = document.getElementById('polaroidMain');
   const tagMain      = document.getElementById('tagMain');
@@ -413,7 +414,67 @@ body::after{width:500px;height:500px;background:radial-gradient(circle,var(--orb
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}}
 a{color:inherit;text-decoration:none;}
 ::selection{background:var(--gold);color:#0A0A0F;}
+/* Struktur wadah utama section */
+.wali-kelas-section {
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+}
 
+.judul-section {
+    text-align: center;
+    color: var(--gold);
+    margin-bottom: 30px;
+}
+
+/* Card profil menggunakan flexbox */
+.card-wali {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+    padding: 30px;
+    border: 2px solid var(--gold); /* Menggunakan warna gold milikmu */
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+/* Pengaturan foto agar bulat presisi */
+.wadah-foto-wali {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.foto-wali {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%; /* Membuat foto jadi bulat */
+    border: 3px solid var(--gold);
+}
+
+/* Teks di dalam card */
+.nama-wali {
+    margin: 0 0 5px 0;
+    font-size: 1.25rem;
+}
+
+.jabatan-wali {
+    margin: 0 0 15px 0;
+    font-size: 0.9rem;
+    color: #666; /* Bisa diganti sesuai warna teks sekunder webmu */
+}
+
+.pesan-wali {
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
 /* ── NAV ── */
 .ribbon{
   position:sticky;top:0;z-index:50;
@@ -683,11 +744,11 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
   </div>
   <div class="entry">
     <span class="entry-year">2023</span>
-    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.53%20(2).jpeg" alt="Masa orientasi siswa"></div>
+    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.56.09.jpeg" alt="Masa orientasi siswa"></div>
     <div class="entry-body">
       <h3>Awal Perjuangan</h3>
       <p>Hari pertama kita menginjakkan kaki di kelas ini — malu-malu, saling melempar pandang, tapi diam-diam menyimpan sejuta mimpi yang sama. Dari situlah Benevolent mulai dibangun, satu wajah baru demi satu wajah baru.</p>
-      <span class="entry-meta">HUT SMP Negeri 1 Godean ke 61</span>
+      <span class="entry-meta">Kunjung Museum TA 2024-2025</span>
     </div>
   </div>
   <div class="entry">
@@ -703,45 +764,40 @@ footer{margin-top:40px;padding:48px 6% 56px;border-top:1px solid var(--border);d
     <span class="entry-year">2024</span>
     <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.54%20(1).jpeg" alt="Ulang tahun sekolah"></div>
     <div class="entry-body">
-      <h3>Satu Jiwa, Negodean</h3>
+      <h3>Satu Kelas, Satu Tujuan</h3>
       <p>Panggung penuh warna, kostum dadakan, dan tawa yang tak henti — perayaan ulang tahun sekolah jadi panggung kecil untuk menunjukkan versi terbaik dari Benevolent kepada seluruh angkatan.</p>
       <span class="entry-meta">Perkemahan Gudep 02.013 02.014</span>
     </div>
   </div>
 </section>
 
-<section class="entries">
-  <div class="entries-head">
-    <span class="eyebrow">Momen Lainnya</span>
-    <h2>Kenangan yang tak kalah berharga.</h2>
-  </div>
-  <div class="entry">
-    <span class="entry-year">2025</span>
-    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.54.jpeg" alt="Class meeting"></div>
-    <div class="entry-body">
-      <h3>Class Meeting</h3>
-      <p>Hari itu, kita bukan hanya belajar di kelas, tapi juga belajar tentang kebersamaan, sportivitas, dan bagaimana menjadi bagian dari sesuatu yang lebih besar dari diri sendiri.</p>
-      <span class="entry-meta">Class Meeting SMP Negeri 1 Godean</span>
+<section class="wali-kelas-section" id="wali-kelas">
+    <div class="container-wali">
+        <h2 class="judul-section">Wali Kelas Kami</h2>
+        
+        <div class="card-wali">
+            <div class="wadah-foto-wali">
+                <img src="" alt="Foto Wali Kelas Benevolent" class="foto-wali">
+            </div>
+            
+            <div class="info-wali">
+                <h3 class="nama-wali">Ibu Nisfu Lailatul Fitri</h3>
+                <p class="jabatan-wali">Wali Kelas 7</p>
+                <p class="pesan-wali">"Kutipan atau pesan singkat dari wali kelas untuk siswa-siswi kelas ini."</p>
+            </div>
+        </div>
+        <div class="card-wali">
+            <div class="wadah-foto-wali">
+                <img src="" alt="Foto Wali Kelas Benevolent" class="foto-wali">
+            </div>
+            
+            <div class="info-wali">
+                <h3 class="nama-wali">Ibu Fresta Svara Kusrian</h3>
+                <p class="jabatan-wali">Wali Kelas 8</p>
+                <p class="pesan-wali">"Kutipan atau pesan singkat dari wali kelas untuk siswa-siswi kelas ini."</p>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="entry">
-    <span class="entry-year">2025</span>
-    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.55%20(1).jpeg" alt="Perkemahan Gudep"></div>
-    <div class="entry-body">
-      <h3>Perkemahan Gudep</h3>
-      <p>Di tengah hutan, dengan api unggun yang hangat, kita menemukan sisi lain dari diri kita — keberanian, kreativitas, dan persahabatan yang tak lekang oleh waktu.</p>
-      <span class="entry-meta">Perkemahan Gudep 02.013 02.014</span>
-    </div>
-  </div>
-  <div class="entry">
-    <span class="entry-year">2025</span>
-    <div class="entry-media"><img src="img/WhatsApp%20Image%202026-07-01%20at%2022.55.55.jpeg" alt="Kegiatan sosial"></div>
-    <div class="entry-body">
-      <h3>Kegiatan Sosial</h3>
-      <p>Memberikan kembali kepada masyarakat adalah bagian dari perjalanan kita. Hari itu, kita belajar bahwa kebahagiaan sejati datang dari memberi, bukan hanya menerima.</p>
-      <span class="entry-meta">Kegiatan Sosial SMP Negeri 1 Godean</span>
-    </div>
-  </div>
 </section>
 
 <footer>
