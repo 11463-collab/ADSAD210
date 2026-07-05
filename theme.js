@@ -92,9 +92,8 @@
     },
   };
 
-  const SPEEDS = { slow: '72s', normal: '48s', fast: '28s' };
+  const SPEEDS = { slow: '450s', normal: '300s', fast: '150s' };
 
-  /* ── 2. Apply theme to :root ────────────────────────────── */
   function applyTheme(name) {
     const tokens = THEMES[name] || THEMES.dark;
     const root = document.documentElement;
