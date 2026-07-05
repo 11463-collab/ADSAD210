@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
   /* ── Read scroll preference ── */
   const doScroll = localStorage.getItem('benevolent-scroll') !== 'false';
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       name:   'ECC 2026',
       icon:   '<i class="fa-solid fa-ellipsis"></i>',
-      desc:   'Foto-foto lain yang tidak masuk kategori di atas',
+      desc:   'ECC 2026, momen yang penuh warna dan kenangan',
       photos: [1,3,13,14,16,25,37],
     },
     {
@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const polaroidSideB= document.getElementById('polaroidSideB');
   const tagSideB     = document.getElementById('tagSideB');
 
-  const selectImage = (index, data) => {
+  const applyHero = (index, data) => {
     data = data || galleryData;
     const item = data[index]; if (!item) return;
     heroBg.style.backgroundImage = `url('${item.src}')`;
@@ -241,6 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const next = data[(index+1)%data.length];
     polaroidSideA.src = prev.src; tagSideA.textContent = prev.label;
     polaroidSideB.src = next.src; tagSideB.textContent = next.label;
+  };
+
+  const selectImage = (index, data) => {
+    applyHero(index, data);
     if (doScroll) window.scrollTo({top:0,behavior:'smooth'});
   };
 
@@ -259,7 +263,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const allForFilm = [...galleryData, ...galleryData];
   const filmCards = allForFilm.map((item, i) => {
     const realIdx = i % galleryData.length;
-    return buildCard(item, () => selectImage(realIdx, galleryData), 'film');
+    const card = buildCard(item, () => selectImage(realIdx, galleryData), 'film');
+    card.dataset.idx = realIdx;
+    return card;
   });
   filmCards.forEach(c => filmTrack.appendChild(c));
 
@@ -267,7 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const groupsContainer = document.getElementById('galleryGroups');
 
   GROUPS.forEach((grp, gi) => {
-    /* Tentukan items: kalau isAib pakai aibGalleryData, kalau tidak pakai galleryData by index */
     let items;
     if (grp.isAib) {
       items = aibGalleryData;
@@ -316,9 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const clickFn = grp.isAib
         ? () => {}
         : () => {
-            const originalIdx = (grp.photos || [])[itemIdx];
-            selectImage(originalIdx, galleryData);
-          };
+            const originalIdx = (grp.photos || [])[itemIdx];};
       grid.appendChild(buildCard(item, clickFn, 'gallery'));
     });
 
@@ -356,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentCentered) currentCentered.classList.remove('is-centered');
       closest.classList.add('is-centered');
       currentCentered = closest;
+      applyHero(parseInt(closest.dataset.idx, 10), galleryData);
     }
     requestAnimationFrame(tick);
   };
@@ -384,7 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
   --ribbon-bg:       rgba(10,10,15,0.72);
   --orb-a:           rgba(212,175,106,0.12);
   --orb-b:           rgba(123,158,168,0.10);
-  --film-speed:      48s;
+  --film-speed:      500s;
   --film-tilt-odd:   -2deg;
   --film-tilt-even:  1.5deg;
   --photo-filter:    saturate(0.8) brightness(0.85);
@@ -541,7 +545,6 @@ a{color:inherit;text-decoration:none;}
 .filmstrip-track-wrap::before{left:0;background:linear-gradient(to right,var(--bg-layer),transparent);}
 .filmstrip-track-wrap::after{right:0;background:linear-gradient(to left,var(--bg-layer),transparent);}
 .filmstrip-track{display:flex;gap:18px;width:max-content;animation:scrollStrip var(--film-speed) linear infinite;}
-.filmstrip-track:hover{animation-play-state:paused;}
 @keyframes scrollStrip{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 .frame-card{flex:0 0 auto;width:260px;height:330px;border-radius:8px;overflow:hidden;position:relative;box-shadow:0 10px 28px rgba(0,0,0,0.5);border:1px solid var(--border);transition:transform 0.35s ease,box-shadow 0.35s ease;cursor:pointer;}
 .frame-card:nth-child(odd) {transform:rotate(var(--film-tilt-odd));}
